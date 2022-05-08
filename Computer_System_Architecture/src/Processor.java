@@ -9,6 +9,7 @@ public class Processor {
 		this.statusRegister = new boolean[8];
 		this.programCounter=0;
 		
+		
 	}
 
 }
