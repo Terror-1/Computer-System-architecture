@@ -2,8 +2,10 @@ import java.io.*;
 import java.util.*;
 
 public class codeParser {
-    Queue<String> Instructions;
-	public codeParser() {
+    private Queue<String> Instructions;
+    private Memory memory;
+	public codeParser(Memory memory) {
+		this.memory=memory;
 		this.Instructions=new LinkedList<>();
 	}
 	public void executer(String filepath) throws FileNotFoundException {
@@ -13,7 +15,7 @@ public class codeParser {
 			String st = sc.nextLine();
 			this.Instructions.add(st);
 		}
-		while(!Instructions.isEmpty()) {
+		for(int i=0 ; !Instructions.isEmpty();i++) {
 			String getInst = Instructions.poll();
 			String token[] = getInst.split(" ");
 			int opCode=0;
@@ -37,34 +39,12 @@ public class codeParser {
 			if (opCode==3 || opCode==4 || opCode==8 ||opCode==9 ||opCode==10 ||opCode==11 ){
 				arg2= Integer.parseInt(token[2]);
 			}
-			
 			else {
-				Integer.parseInt(token[2].substring(1));
+				arg2=Integer.parseInt(token[2].substring(1));
 			}
-			
-			//edit by masking bits
-//			String opString = Integer.toBinaryString(opCode);
-//			while(!(opString.length()== 4)) {
-//				opString='0'+opString;
-//			}
-//			String arg1String = Integer.toBinaryString(arg1);
-//			while(!(arg1String.length()== 6)) {
-//				arg1String='0'+arg1String;
-//			}
-//			String arg2String = Integer.toBinaryString(arg2);
-//			while(!(arg2String.length()== 4)) {
-//				arg2String='0'+arg2String;
-//			}
-//			String temp = opString+arg1+arg2String;
-
-			
-			
-			
-		}
-		
+			//0000 0000 0000 0000 0000 0000 0000 0000  //0000 0000 0000 0000 0000 0000 0000 0001 // //0000 0000 0000 0000 0000 0000 0000 0010
+			short inst = (short) ((((opCode << 6) | arg1 ) << 6)|arg2);
+			memory.getInstMemory()[i]=inst;
+		}	
 	}
-	public static void main(String[] args) throws FileNotFoundException {
-		
-	}
-
 }

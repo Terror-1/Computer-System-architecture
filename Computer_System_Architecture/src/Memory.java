@@ -8,5 +8,10 @@ public class Memory {
 		this.instMemory = new short[1024];
 		
 	}
-
+	public byte[] getDataMemory() {
+		return dataMemory;
+	}
+	public short[] getInstMemory() {
+		return instMemory;
+	}
 }
