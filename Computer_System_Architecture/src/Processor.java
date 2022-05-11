@@ -1,22 +1,16 @@
-import java.io.FileNotFoundException;
-import java.util.LinkedList;
-
 public class Processor {
     private byte[] registerFile; 
     private short PC;
     private boolean[] statusRegister;
-
 	private Memory memory;
-
-	boolean[] flag;
-
-	byte operandA,operandB,opCode,R1,R2;
-	short instruction;
-
-	int cycles;
-	public Processor(Memory memory , ALU ALU) {
+	private boolean[] flag;
+	private byte operandA,operandB,opCode,R1,R2;
+	private short instruction;
+	private int cycles;
+	
+	public Processor(Memory memory) {
 		this.registerFile= new byte[64];
-		this.statusRegister = new boolean[8];
+		this.statusRegister = new boolean[8]; //z >0 // S >1 // N >2 // V >3 // C >4
 		this.PC=0;
 		this.memory=memory;
 		this.flag = new boolean[3]; //execute[0] decode[1] fetch[2]
@@ -58,18 +52,19 @@ public class Processor {
 	}
 	public void fetch() {
 
-		instruction = memory.getInstMemory()[PC++];
+		instruction = memory.getInstMemory()[PC];
+		this.PC++;
 
 	}
 
 	public void decode(short instruction){
 
-		byte opCode = (byte) (instruction >> 12);
-		byte R1 = (byte) ((instruction << 4) >> 10);
-		byte R2 = (byte) (instruction & 0b0000000000111111);
-		byte operandA = registerFile[R1];
-		byte operandB = registerFile[R2];
-//		System.out.println(opCode + " " + R1 + " " + R2);
+	     opCode = (byte) (instruction >> 12);
+		 R1 = (byte) ((instruction << 4) >> 10);
+		 R2 = (byte) (instruction & 0b0000000000111111);
+	     operandA = registerFile[R1];
+		 operandB = registerFile[R2];
+        //		System.out.println(opCode + " " + R1 + " " + R2);
 	}
 
 	public void execute() {
@@ -177,14 +172,5 @@ public class Processor {
 
 		}
 		return (byte)temp;
-	}
-
-
-	public static void main(String[] args) throws FileNotFoundException {
-//		Memory memory = new Memory();
-//		codeParser pr = new codeParser(memory);
-//		pr.executer("src/test.txt");
-//		System.out.println(memory.getInstMemory()[0]+" "+memory.getInstMemory()[1]);
-
 	}
 }

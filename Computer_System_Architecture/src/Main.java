@@ -1,17 +1,20 @@
+import java.io.FileNotFoundException;
+
 public class Main {
   Memory memory ;
   Processor processor;
-  ALU ALU;
 	public Main() {
-		this.ALU= new ALU();
+		
 		this.memory = new Memory();
-		this.processor = new Processor(memory,ALU );
+		this.processor = new Processor(memory);
 		
 	}
 
-	public static void main(String[] args) {
-		Main m=new Main();
-		m.processor.pipeline();
+	public static void main(String[] args) throws FileNotFoundException {
+		Main main=new Main();
+		codeParser pr = new codeParser(main.memory);
+		pr.executer("src/test.txt");
+		main.processor.pipeline();
 	}
 
 }
