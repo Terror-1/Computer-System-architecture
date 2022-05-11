@@ -44,6 +44,8 @@ public class codeParser {
 			}
 			//0000 0000 0000 0000 0000 0000 0000 0000  //0000 0000 0000 0000 0000 0000 0000 0001 // //0000 0000 0000 0000 0000 0000 0000 0010
 			short inst = (short) ((((opCode << 6) | arg1 ) << 6)|arg2);
+
+
 			memory.getInstMemory()[i]=inst;
 		}	
 	}
