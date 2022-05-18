@@ -4,6 +4,10 @@ import java.util.*;
 public class codeParser {
     private Queue<String> Instructions;
     private Memory memory;
+    private int noInst=0;
+	public int getNoInst() {
+		return noInst;
+	}
 	public codeParser(Memory memory) {
 		this.memory=memory;
 		this.Instructions=new LinkedList<>();
@@ -14,6 +18,7 @@ public class codeParser {
 		while(sc.hasNextLine()) {
 			String st = sc.nextLine();
 			this.Instructions.add(st);
+			noInst++;
 		}
 		for(int i=0 ; !Instructions.isEmpty();i++) {
 			String getInst = Instructions.poll();
@@ -30,8 +35,8 @@ public class codeParser {
 			case "JR": opCode=7;	break;
 			case "SLC": opCode=8;	break;
 			case "SRC": opCode=9;	break;
-			case "LP": opCode=10;	break;
-			case "SP": opCode=11;	break;
+			case "LB": opCode=10;	break;
+			case "SB": opCode=11;	break;
 			default:break;
 			}
 			int arg1= Integer.parseInt(token[1].substring(1));

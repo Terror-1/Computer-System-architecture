@@ -1,3 +1,4 @@
+import java.util.Arrays;
 
 public class Memory {
 	private byte [] dataMemory ;
@@ -13,5 +14,15 @@ public class Memory {
 	}
 	public short[] getInstMemory() {
 		return instMemory;
+	}
+	public void printInstMem() {
+		System.out.println("Contet of instruction Memory :");
+		System.out.println(Arrays.toString(this.instMemory));
+		System.out.println("------------------------------------------------------------------");
+	}
+	public void printdataMem() {
+		System.out.println("Contet of data Memory :");
+		System.out.println(Arrays.toString(this.dataMemory));
+		System.out.println("------------------------------------------------------------------");
 	}
 }

@@ -1,2 +1,4 @@
+LB R1 2 
+LB R2 1
 ADD R1 R2
-SUB R2 R3
+SB R1 3   
