@@ -189,7 +189,7 @@ public class Processor {
 				break;
 			case 8 :
 				//SLC
-				temp = (byte) ((operandA << imm) |(operandA >>(8-imm)));
+				temp = (byte) ((operandA << imm) |(operandA >>>(8-imm)));
 				// check zero flag
 				SREG[7]=(temp==0);
 				// check negative flag
@@ -198,7 +198,7 @@ public class Processor {
 				break;
 			case 9 :
 				//SRC
-				temp = (byte)((operandA >> imm) |(operandA << (8-imm)));
+				temp = (byte)((operandA >>> imm) |(operandA << (8-imm)));
 				// check zero flag
 				SREG[7]=(temp==0);
 				// check negative flag
