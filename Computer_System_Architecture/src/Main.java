@@ -21,12 +21,13 @@ public class Main {
 		for(int i=0 ; i<main.memory.getDataMemory().length;i++) {
 			main.memory.getDataMemory()[i]=(byte)random.nextInt(100);
 		}
-		System.out.println(main.memory.getDataMemory()[2]+" "+main.memory.getDataMemory()[1]);
+		System.out.println("--------------------------START-----------------------------------");
 		main.processor.pipeline();
 		main.processor.printRegister();
 		main.processor.printSREGRegister();
 		main.memory.printdataMem();
 		main.memory.printInstMem();
+		System.out.println("--------------------------END-------------------------------------");
 	}
 
 }
