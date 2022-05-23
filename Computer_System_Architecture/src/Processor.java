@@ -153,6 +153,7 @@ public class Processor {
 				if (operandA==0) {
 				pcINT=PC+imm-1;
 				PC = (short)pcINT;
+				//flush the pipline stages to fetch the instruction 
 				flag[0]=false;
 				flag[1]=false;
 				flag[2]=false;
@@ -182,6 +183,7 @@ public class Processor {
 				 
 				PC =(short) ((operandA <<8)|operandB);
 				System.out.println(PC);
+				//flush the pipline stages to fetch the instruction 
 				flag[0]=false;
 				flag[1]=false;
 				flag[2]=false;
