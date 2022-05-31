@@ -28,8 +28,9 @@ public class Processor {
 				break;
 			}
 			System.out.println("Start of cycle "+cycles);
-			cycles++;
 			System.out.println();
+			System.out.println("--> Program Counter :"+PC);
+			cycles++;
 			if(flag[0]) //execute
 			{
 				execute();
@@ -57,14 +58,16 @@ public class Processor {
 		System.out.println("--> The processor is currently fetching instrction number :"+PC);
 		System.out.println("--> The input parameter for Fetching is pc: "+PC);
 		System.out.println("--> The output instruction fetched is :"+ binaryPrint(Integer.toBinaryString(instruction), 16) );
-		System.out.println("------------------------------------------------------------------");
 		this.PC++;
+		System.out.println("--> Program Counter is updated to:"+PC);
+		System.out.println("------------------------------------------------------------------");
+		
 
 	}
 
 	public void decode(short instruction){
 		
-     opCode = (byte) ((instruction&  0b1111000000000000 )>> (12)  );
+         opCode = (byte) ((instruction &  0b1111000000000000 )>> (12)  );
 		 R1 = (byte) ((instruction & 0b0000111111000000)>>(6));
 		 R2 = (byte) ((instruction & 0b0000000000111111));
 	     operandA = registerFile[R1];
@@ -82,8 +85,8 @@ public class Processor {
 
 	public void execute() {
 
-		System.out.println("--The processor is currently executing instrction number :"+ (PC-2));
-		System.out.println("--> The input parameters for executing is : ");
+		System.out.println("--> The processor is currently executing instrction number :"+ (PC-2));
+		System.out.println("--> The input parameters for executing are : ");
 		System.out.println("--> opCode is "+binaryPrint(Integer.toBinaryString(opCode), 4));
 		System.out.println("--> Frist register address  is " + binaryPrint(Integer.toBinaryString(R1), 6) + " / First register content is "+ operandA);
 		System.out.println("--> Second register address is " + binaryPrint(Integer.toBinaryString(R2), 6)+" / Second register content is "+ operandB);

@@ -18,9 +18,9 @@ public class Main {
 	public static void main(String[] args) throws FileNotFoundException{
 		Random random= new Random();
 		Main main=new Main();
-		for(int i=0 ; i<main.memory.getDataMemory().length;i++) {
+		/*for(int i=0 ; i<main.memory.getDataMemory().length;i++) {
 			main.memory.getDataMemory()[i]=(byte)random.nextInt(100);
-		}
+		}*/
 		System.out.println("--------------------------START-----------------------------------");
 		main.processor.pipeline();
 		main.processor.printRegister();
