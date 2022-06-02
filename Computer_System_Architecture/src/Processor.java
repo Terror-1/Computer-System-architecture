@@ -6,7 +6,7 @@ public class Processor {
     private boolean[] SREG;
 	private Memory memory;
 	private boolean[] flag;
-	private byte operandA,operandB,immediate,opCode,R1,R2;
+	private byte operandA,operandB,immediate,immediateUnsigned,opCode,R1,R2;
 	private short instruction;
 	private int noOfinstructions=0;
 
@@ -29,7 +29,6 @@ public class Processor {
 			}
 			System.out.println("Start of cycle "+cycles);
 			System.out.println();
-			System.out.println("--> Program Counter :"+PC);
 			cycles++;
 			if(flag[0]) //execute
 			{
@@ -53,13 +52,13 @@ public class Processor {
 		}
 	}
 	public void fetch() {
-        
+		System.out.println("--> Program Counter : "+PC);
 		instruction = memory.getInstMemory()[PC];
-		System.out.println("--> The processor is currently fetching instrction number :"+PC);
+		System.out.println("--> The processor is currently fetching instrction number :"+(PC));
 		System.out.println("--> The input parameter for Fetching is pc: "+PC);
 		System.out.println("--> The output instruction fetched is :"+ binaryPrint(Integer.toBinaryString(instruction), 16) );
 		this.PC++;
-		System.out.println("--> Program Counter is updated to:"+PC);
+		System.out.println("--> Program Counter is updated to: "+PC);
 		System.out.println("------------------------------------------------------------------");
 		
 
@@ -73,13 +72,14 @@ public class Processor {
 	     operandA = registerFile[R1];
 		 operandB = registerFile[R2];
 		 immediate = extendBits(R2);
+		 immediateUnsigned = R2;
 		 System.out.println("--> The processor is currently decoding instrction number :"+ (PC-1));
 		 System.out.println("--> The input parameter for decoding is instuction :"+binaryPrint(Integer.toBinaryString(instruction), 16));
 		 System.out.println("--> The output decoded is : ");
 		 System.out.println("--> opCode is "+binaryPrint(Integer.toBinaryString(opCode), 4));
 		 System.out.println("--> Frist register address  is " + binaryPrint(Integer.toBinaryString(R1), 6) + " / First register content is "+ operandA);
 		 System.out.println("--> Second register address is " + binaryPrint(Integer.toBinaryString(R2), 6)+" / Second register content is "+ operandB);
-		 System.out.println("--> immediate value  is " + binaryPrint(Integer.toBinaryString(R2), 6));
+		 System.out.println("--> immediate value  is " + binaryPrint(Integer.toBinaryString(immediate), 6));
 		 System.out.println("------------------------------------------------------------------");
 	}
 
@@ -88,9 +88,9 @@ public class Processor {
 		System.out.println("--> The processor is currently executing instrction number :"+ (PC-2));
 		System.out.println("--> The input parameters for executing are : ");
 		System.out.println("--> opCode is "+binaryPrint(Integer.toBinaryString(opCode), 4));
-		System.out.println("--> Frist register address  is " + binaryPrint(Integer.toBinaryString(R1), 6) + " / First register content is "+ operandA);
-		System.out.println("--> Second register address is " + binaryPrint(Integer.toBinaryString(R2), 6)+" / Second register content is "+ operandB);
-		System.out.println("--> immediate value is " + binaryPrint(Integer.toBinaryString(R2), 6));
+		System.out.println("--> First register content is "+ operandA);
+		System.out.println("--> Second register content is "+ operandB);
+		System.out.println("--> immediate value is " + binaryPrint(Integer.toBinaryString(immediate), 6));
 		byte tempRegister = registerFile[R1];
 		registerFile[R1] = run(operandA, operandB,immediate, opCode);
 		
@@ -154,13 +154,16 @@ public class Processor {
 				//BEQZ
 				int pcINT=0;
 				if (operandA==0) {
-				pcINT=PC+imm-1;
+				pcINT=PC+imm-2;
 				PC = (short)pcINT;
 				//flush the pipline stages to fetch the instruction 
 				flag[0]=false;
 				flag[1]=false;
 				flag[2]=false;
 				System.out.println("--> The operation currently executed is BEQZ ---> pc changed to  : "+PC);
+				}
+				else {
+				System.out.println("--> The operation currently executed is BEQZ ---> conditon failed pc Unchanged");
 				}
 				break;
 			case 5 :
@@ -185,7 +188,6 @@ public class Processor {
 				//JR
 				 
 				PC =(short) ((operandA <<8)|operandB);
-				System.out.println(PC);
 				//flush the pipline stages to fetch the instruction 
 				flag[0]=false;
 				flag[1]=false;
@@ -194,7 +196,7 @@ public class Processor {
 				break;
 			case 8 :
 				//SLC
-				temp = (byte) ((operandA << imm) |(operandA >>>(8-imm)));
+				temp = (byte) ((operandA << immediateUnsigned) |(operandA >>> (8-immediateUnsigned)));
 				// check zero flag
 				SREG[7]=(temp==0);
 				// check negative flag
@@ -203,7 +205,7 @@ public class Processor {
 				break;
 			case 9 :
 				//SRC
-				temp = (byte)((operandA >>> imm) |(operandA << (8-imm)));
+				temp = (byte)((operandA >>> immediateUnsigned) |(operandA << (8-immediateUnsigned)));
 				// check zero flag
 				SREG[7]=(temp==0);
 				// check negative flag
@@ -212,14 +214,14 @@ public class Processor {
 				break;
 			case 10:
 				//LB
-				temp = memory.getDataMemory()[imm];
+				temp = memory.getDataMemory()[immediateUnsigned];
 				System.out.println("--> The operation currently executed is LOADBYTE ---> First register is loaded with : "+temp+ " in decimal");
 				break;
 
 			case 11:
 				//SB
-				memory.getDataMemory()[imm]=operandA;
-				System.out.println("--> The operation currently executed is STOREBYTE ---> data memory at index "+binaryPrint(Integer.toBinaryString(imm), 6) +"is updated to "+temp +" in decimal");
+				memory.getDataMemory()[immediateUnsigned]=operandA;
+				System.out.println("--> The operation currently executed is STOREBYTE ---> data memory at index "+immediateUnsigned+" is updated to "+temp +" in decimal");
 				break;
 			default:
 				break;

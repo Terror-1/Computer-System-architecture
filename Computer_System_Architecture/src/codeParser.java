@@ -48,10 +48,8 @@ public class codeParser {
 				arg2=Integer.parseInt(token[2].substring(1));
 			}
 			//0000 0000 0000 0000 0000 0000 0000 0000  //0000 0000 0000 0000 0000 0000 0000 0001 // //0000 0000 0000 0000 0000 0000 0000 0010
-			short inst = (short) ((((opCode << 6) | arg1 ) << 6)|(arg2&(63)));
-			//arg & 63 convert the negative values to 6 bits
-
-
+			short inst = (short) ((((opCode << 6) | arg1 ) << 6)|(arg2&(64-1)));
+			//arg2 & 63 convert the negative values to 6 bits
 			memory.getInstMemory()[i]=inst;
 		}	
 	}
