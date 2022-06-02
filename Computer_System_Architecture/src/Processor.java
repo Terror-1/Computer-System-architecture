@@ -1,4 +1,7 @@
 import java.util.Arrays;
+import java.util.Deque;
+import java.util.LinkedList;
+import java.util.Queue;
 
 public class Processor {
     private byte[] registerFile; 
@@ -154,7 +157,7 @@ public class Processor {
 				//BEQZ
 				int pcINT=0;
 				if (operandA==0) {
-				pcINT=PC+imm-2;
+				pcINT=PC+imm-1;
 				PC = (short)pcINT;
 				//flush the pipline stages to fetch the instruction 
 				flag[0]=false;
@@ -196,7 +199,7 @@ public class Processor {
 				break;
 			case 8 :
 				//SLC
-				temp = (byte) ((operandA << immediateUnsigned) |(operandA >>> (8-immediateUnsigned)));
+				temp = (byte) (((operandA&0XFF) << immediateUnsigned) |((operandA&0XFF) >>> (8-immediateUnsigned)));
 				// check zero flag
 				SREG[7]=(temp==0);
 				// check negative flag
@@ -205,7 +208,7 @@ public class Processor {
 				break;
 			case 9 :
 				//SRC
-				temp = (byte)((operandA >>> immediateUnsigned) |(operandA << (8-immediateUnsigned)));
+				temp = (byte)(((operandA&0XFF) >>> immediateUnsigned) |((operandA&0XFF)<< (8-immediateUnsigned)));
 				// check zero flag
 				SREG[7]=(temp==0);
 				// check negative flag
@@ -257,4 +260,27 @@ public class Processor {
 	public byte extendBits(byte arg1) {
 		return(byte)(((arg1 & 32)==32)? arg1|0b11000000:arg1);
 	}
+	/*public static byte rotateCircular(byte arg , int shiftAmount,boolean Left) {
+		Deque<Character> bits = new LinkedList<>(); 
+		String str = Integer.toBinaryString(arg);
+	    System.out.println(str);
+		String result="";
+		for(int i=str.length()-8 ; i<str.length();i++) {
+			bits.add(str.charAt(i));
+		}
+		if(Left) {
+			for (int i=0 ; i<shiftAmount ; i++) {
+				bits.addLast(bits.removeFirst());
+			}
+		}
+		else {
+			for(int i=0 ; i<shiftAmount ; i++) {
+				bits.addFirst(bits.removeLast());
+			}
+		}
+		while(!bits.isEmpty()) {
+			result+= bits.removeFirst();
+		}
+		return (byte)(Integer.parseInt(result,2));
+	}*/
 }
