@@ -6,7 +6,7 @@ public class Main {
   private Memory memory ;
   private Processor processor;
   private codeParser pr ;
-  private String filePath="src/test.txt";
+  private String filePath="";
   
 	public Main(){
 		
@@ -22,8 +22,8 @@ public class Main {
 			main.memory.getDataMemory()[i]=(byte)random.nextInt(100);
 		}*/
 		System.out.println("Please enter the file path ** e.g. > src/...");
-		//Scanner sc = new Scanner(System.in);
-		//main.filePath = sc.nextLine();
+		Scanner sc = new Scanner(System.in);
+		main.filePath = sc.nextLine();
 		main.pr.executer(main.filePath);
 		main.processor = new Processor(main.memory,main.pr.getNoInst()); 
 		System.out.println("--------------------------START-----------------------------------");
