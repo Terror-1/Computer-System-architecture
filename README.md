@@ -10,7 +10,7 @@
 ## Project Description
 
 ### Course 
-computer system architecture (CSEN 601) ,spring 2022 
+Computer system architecture (CSEN 601) ,spring 2022 
 
 ### Theme
 
