@@ -3,8 +3,6 @@
 
 ## Table of content
 - [Project Description](#project-description)
--
-
 
 
 ## Project Description
